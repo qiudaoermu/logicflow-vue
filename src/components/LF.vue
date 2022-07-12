@@ -1,15 +1,17 @@
 <template>
   <div class="logic-flow-view">
-    <h3 class="demo-title">LogicFlow Vue demo</h3>
     <!-- 辅助工具栏 -->
     <Control
       class="demo-control"
       v-if="lf"
       :lf="lf"
+      :catTurboData="true"
+      @catTurboData="$_catTurboData"
       @catData="$_catData"
+      @renderImportView="$_renderImportView"
     ></Control>
     <!-- 节点面板 -->
-    <NodePanel v-if="lf" :lf="lf" :nodeList="nodeList"></NodePanel>
+    <NodePanel v-if="lf" :lf="lf" :nodeList="panelConfig"></NodePanel>
     <!-- 画布 -->
     <div id="LF-view" ref="container"></div>
     <!-- 用户节点自定义操作面板 -->
@@ -43,13 +45,11 @@
       width="50%">
       <DataDialog :graphData="graphData"></DataDialog>
     </el-dialog>
-    <h4>更多示例：
-      <el-button type="text" @click="goto">BpmnElement & TurboAdpter</el-button>
-    </h4>
   </div>
 </template>
 <script>
 import LogicFlow from '@logicflow/core'
+
 // const LogicFlow = window.LogicFlow
 import { Menu, Snapshot, MiniMap } from '@logicflow/extension'
 import '@logicflow/core/dist/style/index.css'
@@ -60,22 +60,22 @@ import Control from './LFComponents/Control'
 import PropertyDialog from './PropertySetting/PropertyDialog'
 import DataDialog from './LFComponents/DataDialog'
 import { nodeList } from './config'
-
+import { toTurboData, toLogicflowData } from '../Util/AdpterForTurbo';
 import {
   registerStart,
   registerUser,
   registerEnd,
   registerPush,
-  registerDownload,
+  registerdevice,
+  registeralgorithm,
   registerPolyline,
   registerTask,
   registerConnect,
 } from './registerNode'
-const demoData = require('./data.json')
-
+let demoData = require('./data.json')
 export default {
   name: 'LF',
-   components: { NodePanel, AddPanel, Control, PropertyDialog, DataDialog },
+  components: { NodePanel, AddPanel, Control, PropertyDialog, DataDialog },
   data () {
     return {
       lf: null,
@@ -95,8 +95,13 @@ export default {
           backgroundColor: '#f7f9ff',
         },
         grid: {
-          size: 10,
-          visible: false
+          size: 20,
+          visible: true,
+          type: 'mesh',
+          config: {
+            color: '#ababab',
+            thickness: 1,
+          },
         },
         keyboard: {
           enabled: true
@@ -108,10 +113,20 @@ export default {
       nodeList,
     }
   },
+  props: {
+    panelConfig: Object
+  },
   mounted () {
     this.$_initLf()
   },
   methods: {
+    $_catTurboData(){
+      const graphData = this.$data.lf.getGraphData();
+      // 数据转化为Turbo识别的数据结构
+      this.$data.graphData = toTurboData(graphData)
+      this.$data.dataVisible = true;
+      this.$emit('emitTransfromRecord', this.$data.graphData)
+    },
     $_initLf () {
       // 画布配置
       const lf = new LogicFlow({
@@ -163,14 +178,20 @@ export default {
       registerUser(this.lf)
       registerEnd(this.lf)
       registerPush(this.lf, this.clickPlus, this.mouseDownPlus)
-      registerDownload(this.lf)
+      registerdevice(this.lf)
+      registeralgorithm(this.lf)
       registerPolyline(this.lf)
       registerTask(this.lf)
       registerConnect(this.lf)
       this.$_render()
     },
     $_render () {
-      this.lf.render(demoData)
+      const lFData = toLogicflowData(demoData)
+      lFData & this.lf.render(lFData)
+      this.$_LfEvent()
+    },
+    $_renderImportView(lFData) {
+      this.lf.render(lFData)
       this.$_LfEvent()
     },
     $_getData () {
@@ -260,10 +281,9 @@ export default {
   z-index: 2;
 }
 #LF-view{
-  width: calc(100% - 100px);
-  height: 80%;
+  width: calc(100%);
+  height: 100%;
   outline: none;
-  margin-left: 50px;
 }
 .time-plus{
   cursor: pointer;

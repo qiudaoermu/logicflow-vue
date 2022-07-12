@@ -54,7 +54,7 @@
     },
     {
       "id": "37e7bac3-8804-4237-abe9-7b6065c207e9",
-      "type": "download",
+      "type": "device",
       "x": 690,
       "y": 320,
       "properties": {},
@@ -94,7 +94,7 @@
     },
     {
       "id": "414fe028-3609-4450-b0f4-e5aca7705e8c",
-      "type": "download",
+      "type": "device",
       "x": 860,
       "y": 170,
       "properties": {},

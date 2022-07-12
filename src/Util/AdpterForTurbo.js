@@ -10,41 +10,41 @@ const TurboType = {
 
 function getTurboType (type) {
   switch (type) {
-    case 'bpmn:sequenceFlow':
-      return TurboType.SEQUENCE_FLOW;
-    case 'bpmn:startEvent':
+    case "start": // 服务
       return TurboType.START_EVENT;
-    case 'bpmn:endEvent':
-      return TurboType.END_EVENT;
-    case 'bpmn:userTask':
+    case "end": // 服务
+      return TurboType.START_EVENT;
+    case "device": // 设备
       return TurboType.USER_TASK;
-    case 'bpmn:serviceTask':
+    case "rect": // 场景
+      return TurboType.SEQUENCE_FLOW;
+    case "algorithm":
+      return TurboType.END_EVENT;
+    case "polyline":
       return TurboType.SERVICE_TASK;
-    case 'bpmn:exclusiveGateway':
-      return TurboType.EXCLUSIVE_GATEWAY;
     default:
       return type;
   }
 }
 
 function convertNodeToTurboElement(node) {
-  const { id, type, x, y, text = '', properties } = node;
+  const { id, type, x, y, properties  } = node;
+  const { flowProperties,...params } = properties;
   return {
-      incoming: [],
-      outgoing: [],
-      dockers: [],
-      type: getTurboType(node.type),
-      properties: {
-        ...properties,
-        name: text && text.value || '',
-        x: x,
-        y: y,
-        text,
-        logicFlowType: type,
-      },
-      key: id,
-    };
+    prev: [],
+    next: [],
+    procType: getTurboType(node.type),
+    ...params,
+    properties: {
+      ...flowProperties,
+      x: x,
+      y: y,
+      logicFlowType: type,
+    },
+    current: id,
+  };
 }
+
 function convertEdgeToTurboElement (edge) {
   const {
     id,
@@ -57,41 +57,41 @@ function convertEdgeToTurboElement (edge) {
     text = '',
     properties } = edge;
   return {
-      incoming: [sourceNodeId],
-      outgoing: [targetNodeId],
-      type: getTurboType(type),
-      dockers: [],
-      properties: {
-        ...properties,
-        name: text && text.value || '',
-        text,
-        startPoint,
-        endPoint,
-        pointsList,
-        logicFlowType: type,
-      },
-      key: id,
-    };
+    prev: [sourceNodeId],
+    next: [targetNodeId],
+    procType: getTurboType(type),
+    properties: {
+      ...properties,
+      name: (text && text.value) || "",
+      text,
+      startPoint,
+      endPoint,
+      pointsList,
+      logicFlowType: type,
+    },
+    current: id,
+  };
 }
 
 export function toTurboData(data) {
   const nodeMap = new Map();
   const turboData = {
-    flowElementList: [],
+    proc: [],
   };
   data.nodes.forEach((node) => {
     const flowElement = convertNodeToTurboElement(node);
-    turboData.flowElementList.push(flowElement);
+    turboData.proc.push(flowElement);
     nodeMap.set(node.id, flowElement);
   });
   data.edges.forEach((edge) => {
     const flowElement = convertEdgeToTurboElement(edge);
     const sourceElement = nodeMap.get(edge.sourceNodeId);
-    sourceElement.outgoing.push(flowElement.key);
+    sourceElement.next.push(flowElement.current);
     const targetElement = nodeMap.get(edge.targetNodeId);
-    targetElement.incoming.push(flowElement.key);
-    turboData.flowElementList.push(flowElement);
+    targetElement.prev.push(flowElement.current);
+    turboData.proc.push(flowElement);
   });
+
   return turboData;
 }
 
@@ -146,7 +146,7 @@ function convertFlowElementToNode(element) {
 
 }
 
-
+// 后台数据转logicFlow
 export function toLogicflowData(data) {
   const lfData = {
     nodes: [],

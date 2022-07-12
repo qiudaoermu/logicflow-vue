@@ -8,14 +8,35 @@
       <el-button type="plain" size="small" @click="$_reset">还原(大小&定位)</el-button>
       <el-button type="plain" size="small" @click="$_undo" :disabled="undoDisable">上一步(ctrl+z)</el-button>
       <el-button type="plain" size="small" @click="$_redo" :disabled="redoDisable">下一步(ctrl+y)</el-button>
-      <el-button type="plain" size="small" @click="$_download">下载图片</el-button>
+      <el-button type="plain" size="small" @click="$_device">下载图片</el-button>
+      <el-button type="plain" size="small" @click="$refs.refFile.click()">打开文件</el-button>
+      <el-button type="plain" size="small" @click="$_export">下载文件</el-button>
       <el-button type="plain" size="small" @click="$_catData">查看数据</el-button>
       <el-button v-if="catTurboData" type="plain" size="small" @click="$_catTurboData">查看turbo数据</el-button>
       <el-button type="plain" size="small" @click="$_showMiniMap">查看缩略图</el-button>
     </el-button-group>
+    <input type="file" id="files" ref="refFile" style="display: none" accept=".xml, .json" @change="importLocalFile" />
   </div>
 </template>
 <script>
+import { Snapshot, DndPanel, lfJson2Xml } from "@logicflow/extension";
+function download(filename, text) {
+  console.log(filename, text);
+  var element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 export default {
   name: 'Control',
   props: {
@@ -59,8 +80,23 @@ export default {
     $_redo(){
       this.$props.lf.redo();
     },
-    $_download(){
+    $_device(){
       this.$props.lf.getSnapshot();
+    },
+     // 加载本地文件
+    importLocalFile() {
+      const file = this.$refs.refFile.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = (evt) => {
+        console.log(evt.target.result)
+        // that.createNewDiagram(xmlStr);
+        this.$emit("renderImportView", JSON.parse(evt.target.result));
+      };
+    },
+    $_export() {
+      const data = this.$props.lf.getGraphData();
+      download("logicflow.json", JSON.stringify(data));
     },
     $_catData(){
       this.$emit('catData');

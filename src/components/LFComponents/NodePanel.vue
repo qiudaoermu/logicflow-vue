@@ -1,5 +1,5 @@
 <template>
-  <div class="node-panel">
+ <!-- <div class="node-panel">
     <div class="node-item"
       v-for="item in nodeList"
       :key="item.text"
@@ -9,19 +9,97 @@
     </div>
     <span class="node-label">{{item.text}}</span>
     </div>
-  </div>
+  </div> -->
+  <el-collapse class="node-panel" v-model="activeNames" @change="handleChange">
+    
+     <el-collapse-item  class="node-item"
+      :title="nodeList.service.title" name="1"
+      v-if="nodeList.service.list.length > 0"
+     >
+     <div 
+     
+        v-for="item in nodeList.service.list"
+        :key="item.flowProperties.text"
+        @mousedown="$_dragNode(item)">
+        <div class="node-item-icon" :class="item.flowProperties.class">
+        </div>
+        <span class="node-label">{{item.flowProperties.text}}</span>
+      </div>
+    </el-collapse-item>
+
+    <el-collapse-item  class="node-item"
+      :title="nodeList.device.title" name="2"
+      v-if="nodeList.device.list.length > 0"
+     >
+      <div v-for="item in nodeList.device.list"
+        :key="item.flowProperties.text"
+        @mousedown="$_dragNode(item)">
+        <div class="node-item-icon" :class="item.flowProperties.class">
+        </div>
+        <span class="node-label">{{item.flowProperties.text}}</span>
+      </div>
+    </el-collapse-item>
+
+    <el-collapse-item  class="node-item"
+      :title="nodeList.algorithm.title" name="3"
+      v-if="nodeList.algorithm.list.length > 0"
+     >
+      <div  v-for="item in nodeList.algorithm.list"
+      
+        :key="item.flowProperties.text"
+       
+        @mousedown="$_dragNode(item)">
+       <div class="node-item-icon" :class="item.flowProperties.class">
+        </div>
+        <span class="node-label">{{item.flowProperties.text}}</span>
+      </div>
+    </el-collapse-item>
+    
+    <el-collapse-item  class="node-item"
+      :title="nodeList.scene.title" name="4"
+      v-if="nodeList.scene.list.length > 0"
+     >
+      <div v-for="item in nodeList.scene.list"
+        :key="item.flowProperties.text"
+        @mousedown="$_dragNode(item)">
+        <div class="node-item-icon" :class="item.flowProperties.class">
+          </div>
+          <span class="node-label">{{item.flowProperties.text}}</span>
+        </div>
+    </el-collapse-item>
+  </el-collapse>
 </template>
 <script>
 export default {
+  data(){
+    return {
+      activeNames: ['1','2']
+    }
+  },
   name: 'NodePanel',
   props: {
     lf: Object,
-    nodeList: Array,
+    nodeList: Object,
+  },
+  watch: {
+    nodeList(value) {
+      console.log(value,'-----value')
+    }
   },
   methods: {
+    handleChange() {},
     $_dragNode (item) {
+      const { flowProperties, ...params } = item;
       this.$props.lf.dnd.startDrag({
-        type: item.type,
+        type: item.flowProperties.type,
+        text: item.flowProperties.type === 'device' ? {
+          value: item.flowProperties.text,
+        }:  item.flowProperties.text,
+        properties: {
+          ...params,
+          flowProperties,
+          "logicFlowType": "bpmn:startEvent"
+        },
       })
     }
   }
@@ -31,8 +109,8 @@ export default {
 .node-panel {
   position: absolute;
   top: 50px;
-  left: 50px;
-  width: 70px;
+  left: 20px;
+  width: 100px;
   padding: 20px 10px;
   background-color: white;
   box-shadow: 0 0 10px 1px rgb(228, 224, 219);
@@ -46,13 +124,25 @@ export default {
 .node-item-icon {
   width: 30px;
   height: 30px;
-  margin-left: 20px;
-  background-size: cover;
+  margin: 10px auto;
 }
 .node-label {
   font-size: 12px;
   margin-top: 5px;
   user-select: none;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align:center;
+  min-width:40px;
+  color: #fff;
+  background: rgba(24, 144, 255, 1);
+  border: 1px solid rgba(24, 144, 255, 0.8);
+  cursor: pointer;
+  margin-bottom: 8px;
+  &:first-child {
+    margin-top: 8px;
+  }
 }
 .node-start{
   background: url('../background/start.png') no-repeat;
@@ -60,6 +150,11 @@ export default {
 }
 .node-rect{
   border: 1px solid black;
+}
+.node-algorithm {
+  width:32px;
+  background: url('../background/alg.png') no-repeat;
+  background-size: cover;
 }
 .node-user{
   background: url('../background/user.png') no-repeat;
@@ -73,8 +168,9 @@ export default {
   background: url('../background/push.png') no-repeat;
   background-size: cover;
 }
-.node-download{
-  background: url('../background/download.png') no-repeat;
+.node-device{
+  background: url('../background/device.png') no-repeat;
+ 
   background-size: cover;
 }
 .node-click{

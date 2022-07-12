@@ -1,40 +1,41 @@
 export const nodeList = [
-  {
-    text: '开始',
-    type: 'start',
-    class: 'node-start'
-  },
-  {
-    text: '矩形',
-    type: 'rect',
-    class: 'node-rect'
-  },
-  {
-    type: 'user',
-    text: '用户',
-    class: 'node-user'
-  },
-  {
-    type: 'push',
-    text: '推送',
-    class: 'node-push'
-  },
-  {
-    type: 'download',
-    text: '位置',
-    class: 'node-download'
-  },
-  {
-    type: 'connect',
-    text: 'Html',
-    class: 'node-push'
-  },
-  {
-    type: 'end',
-    text: '结束',
-    class: 'node-end'
-  },
-];
+         {
+           type: "start",
+           class: "node-start",
+           text: "开始节点",
+           label: "开始",
+         },
+         {
+           text: "矩形节点",
+           type: "rect",
+           class: "node-rect",
+           label: "矩形",
+         },
+         {
+           text: "圆形节点",
+           type: "circle",
+           class: "node-circle",
+           label: "圆形",
+         },
+         {
+           type: "user",
+           text: "用户节点",
+           class: "node-user",
+           label: "用户",
+         },
+         {
+           type: "device",
+           text: "位置节点",
+           class: "node-device",
+           label: "位置",
+         },
+         {
+           type: "end",
+           text: "结束节点",
+           class: "node-end",
+           label: "结束",
+         },
+       ];
 
 export const BpmnNode = [
   {
@@ -56,5 +57,5 @@ export const BpmnNode = [
     type: 'bpmn:userTask',
     text: '用户',
     class: 'bpmn-user'
-  },
+  }
 ]

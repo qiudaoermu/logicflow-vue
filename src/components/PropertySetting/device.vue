@@ -1,21 +1,20 @@
 <template>
   <div>
     <el-form label-width="80px" :model="formData">
-      <el-form-item label="文案">
-        <el-input v-model="formData.text"></el-input>
+      <el-form-item label="名称" >
+        <el-input v-model="formData.name" disabled></el-input>
       </el-form-item>
-      <el-form-item label="名称">
-        <el-input v-model="formData.name"></el-input>
+      <el-form-item label="ip">
+        <el-input v-model="formData.ip"></el-input>
       </el-form-item>
-      <el-form-item label="活动区域">
-        <el-input v-model="formData.region"></el-input>
+        <el-form-item label="端口">
+        <el-input v-model="formData.port"></el-input>
       </el-form-item>
-      <el-form-item label="活动形式">
-        <el-input v-model="formData.type"></el-input>
+      <el-form-item label="协议">
+        <el-input v-model="formData.protocol"></el-input>
       </el-form-item>
-      <el-form-item label="A">
-        <el-input v-model="formData.a.a1"></el-input>
-        <el-input v-model="formData.a.a2"></el-input>
+       <el-form-item label="命令">
+        <el-input v-model="formData.command"></el-input>
       </el-form-item>
        <el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
@@ -32,6 +31,7 @@ export default {
   },
   mounted() {
     const { properties, text } = this.$props.nodeData
+    console.log(properties,"properties")
     if (properties) {
       this.$data.formData = Object.assign({}, this.$data.formData, properties)
     }
@@ -50,10 +50,6 @@ export default {
           name: '',
           region: '',
           type: '',
-          a: {
-            a1: '',
-            a2: ''
-          }
         }
     }
   }, 
@@ -63,8 +59,7 @@ export default {
       this.$props.lf.setProperties(id, {
         ...this.$data.formData
       });
-      console.log(6666, this.$data.formData);
-      this.$props.lf.updateText(id, this.$data.formData.text);
+      // this.$props.lf.updateText(id, this.$data.formData.text);
       this.$emit('onClose')
     },
   }

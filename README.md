@@ -1,4 +1,4 @@
-# logicflow_vue_demo
+# logicflow-vue
 
 > Logic-flow 的vue应用实例  
 > logic Flow 详细内容参照[【文档】](http://logic-flow.org/)

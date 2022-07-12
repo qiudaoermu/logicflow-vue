@@ -1,26 +1,26 @@
 <template>
   <div class="property-dialog">
-    <User
-      v-if="nodeData.type === 'user'"
+     <device
+      v-if="nodeData.type === 'device'"
       :nodeData="nodeData"
       :lf="lf"
       @onClose="handleClose"/>
-    <CommonProperty
-      v-else
+    <algorithm
+      v-if="nodeData.type === 'algorithm'"
       :nodeData="nodeData"
       :lf="lf"
       @onClose="handleClose"/>
   </div>
 </template>
 <script>
-import CommonProperty from './CommonProperty'
-import User from './User.vue'
+import device from './device'
+import algorithm from './algorithm.vue'
 
 export default {
   name: 'PropertyDialog',
   components: {
-    CommonProperty,
-    User
+    device,
+    algorithm
   },
   props: {
     nodeData: Object,

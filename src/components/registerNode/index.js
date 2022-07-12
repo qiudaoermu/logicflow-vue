@@ -6,8 +6,19 @@ import registerStart from './registerStart'
 import registerUser from './registerUser'
 import registerEnd from './registerEnd'
 import registerPush from './registerPush'
-import registerDownload from './registerDownload'
+import registeralgorithm from "./registeralgorithm"
+import registerdevice from './registerdevice'
 import registerPolyline from './registerPolyline'
 import registerTask from './registerTask'
 import registerConnect from './registerConnect'
-export { registerStart, registerUser, registerEnd, registerPush, registerDownload, registerPolyline, registerTask, registerConnect }
+export {
+  registerStart,
+  registerUser,
+  registerEnd,
+  registerPush,
+  registerdevice,
+  registeralgorithm,
+  registerPolyline,
+  registerTask,
+  registerConnect,
+};

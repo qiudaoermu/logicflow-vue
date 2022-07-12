@@ -48,7 +48,7 @@ export default {
       const {lf, nodeData} = this.$props
       const { id, x, y } = nodeData
       const timeNode = lf.addNode({
-        type: 'download',
+        type: 'device',
         x,
         y: y + 150
       })
