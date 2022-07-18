@@ -60,7 +60,7 @@ export default function registerEnd (lf) {
                 r,
                 fill,
                 stroke,
-                strokeWidth
+                strokeWidth: 2
               }
             ),
             this.getIconShape()

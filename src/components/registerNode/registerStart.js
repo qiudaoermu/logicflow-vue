@@ -44,7 +44,7 @@ export default function registerStart (lf) {
                 r,
                 fill,
                 stroke,
-                strokeWidth
+                strokeWidth: 2
               }
             ),
             this.getLabelShape()

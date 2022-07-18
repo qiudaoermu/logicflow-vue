@@ -1,0 +1,201 @@
+{
+  "proc": [
+    {
+      "prev": [],
+      "next": ["f441ec70-3c02-477a-a0a6-0618b658a111"],
+      "procType": 2,
+      "name": "开始",
+      "text": "开始节点",
+      "class": "node-start",
+      "type": "start",
+      "logicFlowType": "bpmn:startEvent",
+      "properties": {
+        "class": "node-start",
+        "type": "start",
+        "text": "开始",
+        "label": "开始",
+        "x": 220,
+        "y": 160,
+        "logicFlowType": "start"
+      },
+      "current": "3a627474-f47c-4ba4-be4d-acb23a021778"
+    },
+    {
+      "prev": ["f441ec70-3c02-477a-a0a6-0618b658a111"],
+      "next": ["ec52c83d-fa6e-48d3-8b08-db4ab6083673"],
+      "procType": 4,
+      "createTime": "2022-07-11 10:00:02",
+      "drive": "1",
+      "ip": "",
+      "name": "相机",
+      "port": 10,
+      "protocol": "tcp",
+      "type": 1,
+      "updateTime": null,
+      "deviceType": 1,
+      "deviceId": 20,
+      "logicFlowType": "bpmn:startEvent",
+      "properties": {
+        "class": "node-device",
+        "type": "device",
+        "text": "相机",
+        "label": "相机",
+        "x": 320,
+        "y": 320,
+        "logicFlowType": "device"
+      },
+      "current": "2da9305a-4df2-46b0-b950-9a03fdd147aa"
+    },
+    {
+      "prev": ["ec52c83d-fa6e-48d3-8b08-db4ab6083673"],
+      "next": ["acb63959-6fdd-45b5-a894-94c6429be83e"],
+      "procType": 3,
+      "algId": 0,
+      "breif": "QBar brief(&",
+      "params": "0,[in][QBar]input path ,char*,C:/Users/tianyunjie/Desktop/ë��/Pictures/1.png;10,[out][QBar]information,char*,;",
+      "algName": "QBar",
+      "logicFlowType": "bpmn:startEvent",
+      "properties": {
+        "class": "node-algorithm",
+        "type": "algorithm",
+        "text": "QBar",
+        "label": "QBar",
+        "x": 560,
+        "y": 280,
+        "logicFlowType": "algorithm"
+      },
+      "current": "ac7150cc-6ae0-4019-abd4-644742e6abff"
+    },
+    {
+      "prev": ["acb63959-6fdd-45b5-a894-94c6429be83e"],
+      "next": [],
+      "procType": 2,
+      "name": "结束",
+      "text": "结束节点",
+      "class": "node-end",
+      "type": "end",
+      "logicFlowType": "bpmn:startEvent",
+      "properties": {
+        "class": "node-end",
+        "type": "end",
+        "text": "结束",
+        "label": "结束",
+        "x": 680,
+        "y": 220,
+        "logicFlowType": "end"
+      },
+      "current": "445759ef-5d22-4954-91ae-d1512884a33d"
+    },
+    {
+      "prev": ["3a627474-f47c-4ba4-be4d-acb23a021778"],
+      "next": ["2da9305a-4df2-46b0-b950-9a03fdd147aa"],
+      "procType": 5,
+      "properties": {
+        "name": "",
+        "text": "",
+        "startPoint": {
+          "x": 240,
+          "y": 160
+        },
+        "endPoint": {
+          "x": 295,
+          "y": 320
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 160
+          },
+          {
+            "x": 265,
+            "y": 160
+          },
+          {
+            "x": 265,
+            "y": 320
+          },
+          {
+            "x": 295,
+            "y": 320
+          }
+        ],
+        "logicFlowType": "polyline"
+      },
+      "current": "f441ec70-3c02-477a-a0a6-0618b658a111"
+    },
+    {
+      "prev": ["2da9305a-4df2-46b0-b950-9a03fdd147aa"],
+      "next": ["ac7150cc-6ae0-4019-abd4-644742e6abff"],
+      "procType": 5,
+      "properties": {
+        "name": "",
+        "text": "",
+        "startPoint": {
+          "x": 345,
+          "y": 320
+        },
+        "endPoint": {
+          "x": 535,
+          "y": 280
+        },
+        "pointsList": [
+          {
+            "x": 345,
+            "y": 320
+          },
+          {
+            "x": 440,
+            "y": 320
+          },
+          {
+            "x": 440,
+            "y": 280
+          },
+          {
+            "x": 535,
+            "y": 280
+          }
+        ],
+        "logicFlowType": "polyline"
+      },
+      "current": "ec52c83d-fa6e-48d3-8b08-db4ab6083673"
+    },
+    {
+      "prev": ["ac7150cc-6ae0-4019-abd4-644742e6abff"],
+      "next": ["445759ef-5d22-4954-91ae-d1512884a33d"],
+      "procType": 5,
+      "properties": {
+        "name": "",
+        "text": "",
+        "startPoint": {
+          "x": 585,
+          "y": 280
+        },
+        "endPoint": {
+          "x": 700,
+          "y": 220
+        },
+        "pointsList": [
+          {
+            "x": 585,
+            "y": 280
+          },
+          {
+            "x": 730,
+            "y": 280
+          },
+          {
+            "x": 730,
+            "y": 220
+          },
+          {
+            "x": 700,
+            "y": 220
+          }
+        ],
+        "logicFlowType": "polyline"
+      },
+      "current": "acb63959-6fdd-45b5-a894-94c6429be83e"
+    }
+  ]
+}

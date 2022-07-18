@@ -57,6 +57,11 @@
       "type": "device",
       "x": 690,
       "y": 320,
+      "text": {
+        "x": 350,
+        "y": 190,
+        "value": "sdfasf"
+      },
       "properties": {},
       "baseType": "node"
     },

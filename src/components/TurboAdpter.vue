@@ -79,7 +79,7 @@ export default {
     },
     $_render () {
       // Turbo数据转换为LogicFlow内部识别的数据结构
-      const lFData = toLogicflowData(demoData)
+      const lFData = toLogicflowData(JSON.parse(JSON.stringify(demoData)))
       this.lf.render(lFData)
     },
     closeDialog () {

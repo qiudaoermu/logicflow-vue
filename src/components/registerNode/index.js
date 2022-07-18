@@ -7,6 +7,7 @@ import registerUser from './registerUser'
 import registerEnd from './registerEnd'
 import registerPush from './registerPush'
 import registeralgorithm from "./registeralgorithm"
+import registerScene from "./registerScene"
 import registerdevice from './registerdevice'
 import registerPolyline from './registerPolyline'
 import registerTask from './registerTask'
@@ -18,6 +19,7 @@ export {
   registerPush,
   registerdevice,
   registeralgorithm,
+  registerScene,
   registerPolyline,
   registerTask,
   registerConnect,

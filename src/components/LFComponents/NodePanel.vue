@@ -70,6 +70,8 @@
   </el-collapse>
 </template>
 <script>
+import * as node from "../registerNode/index";
+let register = Object.values(node).map(item => item.name.replace("register",""))
 export default {
   data(){
     return {
@@ -92,13 +94,13 @@ export default {
       const { flowProperties, ...params } = item;
       this.$props.lf.dnd.startDrag({
         type: item.flowProperties.type,
-        text: item.flowProperties.type === 'device' ? {
+        text: register.includes(item.flowProperties.type) ?
+        {
           value: item.flowProperties.text,
         }:  item.flowProperties.text,
         properties: {
           ...params,
           flowProperties,
-          "logicFlowType": "bpmn:startEvent"
         },
       })
     }
@@ -148,8 +150,10 @@ export default {
   background: url('../background/start.png') no-repeat;
   background-size: cover;
 }
-.node-rect{
-  border: 1px solid black;
+.node-scene{
+  width:32px;
+  background: url('../background/scene.png') no-repeat;
+  background-size: cover;
 }
 .node-algorithm {
   width:32px;

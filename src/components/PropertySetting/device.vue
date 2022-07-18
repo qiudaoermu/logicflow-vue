@@ -2,7 +2,7 @@
   <div>
     <el-form label-width="80px" :model="formData">
       <el-form-item label="名称" >
-        <el-input v-model="formData.name" disabled></el-input>
+        <el-input v-model="formData.text" disabled></el-input>
       </el-form-item>
       <el-form-item label="ip">
         <el-input v-model="formData.ip"></el-input>

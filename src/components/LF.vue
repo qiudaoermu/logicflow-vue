@@ -7,6 +7,7 @@
       :lf="lf"
       :catTurboData="true"
       @catTurboData="$_catTurboData"
+      @catSaveData="$_catSaveData"
       @catData="$_catData"
       @renderImportView="$_renderImportView"
     ></Control>
@@ -68,16 +69,19 @@ import {
   registerPush,
   registerdevice,
   registeralgorithm,
+  registerScene,
   registerPolyline,
   registerTask,
   registerConnect,
 } from './registerNode'
 let demoData = require('./data.json')
+let demoDataTurbo = require('./data1.json')
 export default {
   name: 'LF',
   components: { NodePanel, AddPanel, Control, PropertyDialog, DataDialog },
   data () {
     return {
+      reviewRecord: {},
       lf: null,
       showAddPanel: false,
       addPanelStyle: {
@@ -114,7 +118,14 @@ export default {
     }
   },
   props: {
-    panelConfig: Object
+    panelConfig: Object,
+    record: Object
+  },
+  watch: {
+      record(value) {
+        this.reviewRecord = value;
+         this.$_render()
+      }
   },
   mounted () {
     this.$_initLf()
@@ -125,6 +136,12 @@ export default {
       // 数据转化为Turbo识别的数据结构
       this.$data.graphData = toTurboData(graphData)
       this.$data.dataVisible = true;
+      // this.$emit('emitTransfromRecord', this.$data.graphData)
+    },
+    $_catSaveData() {
+       const graphData = this.$data.lf.getGraphData();
+      // 数据转化为Turbo识别的数据结构
+      this.$data.graphData = toTurboData(graphData)
       this.$emit('emitTransfromRecord', this.$data.graphData)
     },
     $_initLf () {
@@ -180,14 +197,17 @@ export default {
       registerPush(this.lf, this.clickPlus, this.mouseDownPlus)
       registerdevice(this.lf)
       registeralgorithm(this.lf)
+      registerScene(this.lf)
       registerPolyline(this.lf)
       registerTask(this.lf)
       registerConnect(this.lf)
       this.$_render()
     },
     $_render () {
-      const lFData = toLogicflowData(demoData)
-      lFData & this.lf.render(lFData)
+      const lFData = toLogicflowData(JSON.parse(JSON.stringify(this.reviewRecord)))
+      console.log(lFData, "lFData")
+      this.lf.render(lFData)
+      // this.lf.render(demoData)
       this.$_LfEvent()
     },
     $_renderImportView(lFData) {

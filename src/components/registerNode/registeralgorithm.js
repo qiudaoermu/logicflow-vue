@@ -1,4 +1,4 @@
-const NODE_COLOR = "#d733b3";
+const NODE_COLOR = "red";
 export default function registeralgorithm(lf) {
   lf.register("algorithm", ({ PolygonNode, PolygonNodeModel, h }) => {
     class Node extends PolygonNode {
